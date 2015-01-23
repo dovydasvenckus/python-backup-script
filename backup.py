@@ -11,6 +11,7 @@ def check_files(file_names):
     
     for failure in failed:
         print('%s - failed' % failure)
+    return failed
           
 def backup(file_names, out_file):
     tar = tarfile.open(out_file, 'w:gz')
@@ -25,6 +26,9 @@ names = []
 
 for key, path in paths:
     names.append(path)
-check_files(names)
-backup(names, sys.argv[1])
-
+    
+failed = check_files(names)
+if len(failed) == 0:
+    backup(names, sys.argv[1])
+else:
+    print("Please fix config file")
